@@ -1,18 +1,22 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Landing from './pages/Landing.jsx'
 import Auth from './pages/Auth.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import PublicBooking from './pages/PublicBooking.jsx'
 
-// Simple client-side "router" based on hash
-const getInitialPage = () => {
-  if (window.location.pathname === '/book') return 'book'
-  return 'landing'
-}
-
 export default function App() {
-  const [page, setPage] = useState(getInitialPage())
+  const [page, setPage] = useState('loading')
 
+  useEffect(() => {
+    const path = window.location.pathname
+    if (path === '/book' || path === '/book/') {
+      setPage('book')
+    } else {
+      setPage('landing')
+    }
+  }, [])
+
+  if (page === 'loading') return null
   if (page === 'book') return <PublicBooking />
   if (page === 'landing') return <Landing onNavigate={setPage} />
   if (page === 'auth') return <Auth onNavigate={setPage} />

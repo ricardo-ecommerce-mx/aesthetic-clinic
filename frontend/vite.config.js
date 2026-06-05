@@ -6,15 +6,13 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/api': {
-        target: process.env.VITE_BACKEND_URL || 'http://localhost:3001',
-        changeOrigin: true,
-      },
-      '/socket.io': {
-        target: process.env.VITE_BACKEND_URL || 'http://localhost:3001',
-        changeOrigin: true,
-        ws: true,
-      },
+      '/api': { target: 'http://localhost:3001', changeOrigin: true },
+      '/socket.io': { target: 'http://localhost:3001', changeOrigin: true, ws: true },
     },
+  },
+  preview: {
+    port: process.env.PORT ? parseInt(process.env.PORT) : 4173,
+    host: '0.0.0.0',
+    allowedHosts: ['all'],
   },
 })
